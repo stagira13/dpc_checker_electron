@@ -190,7 +190,7 @@ webapp.post('/delete', function (req, res) {
 });
 
 
-app.get('/getdata',(req,res) => {
+webapp.get('/getdata',(req,res) => {
   let db = new sqlite3.Database('dpc.db');
   let query = dash_querys[req.query.key];
   db.all(query,(err,rows) => {
@@ -199,7 +199,7 @@ app.get('/getdata',(req,res) => {
   db.close();
 })
 
-app.get("/dash",function(req,res){
+webapp.get("/dash",function(req,res){
     res.render('board.ejs');
 });
 
