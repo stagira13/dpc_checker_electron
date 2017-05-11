@@ -1,0 +1,74 @@
+<!doctype html>
+<title>DPCチェッカー</title>
+
+<head>
+<link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/material.deep_purple-pink.min.css">
+<script type="text/javascript" charset="utf8" src="/static/material.min.js"></script>
+<script type="text/javascript" charset="utf8" src = "/static/jquery.js"></script>
+<script type="text/javascript" charset="utf8" src = "/static/jquery.dataTables.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript" charset="utf8" src="/static/d3.js"></script>
+<script type="text/javascript" charset="utf8" src = "/static/c3.min.js"></script>
+<link rel="stylesheet" href="/static/c3.min.css">
+</head>
+
+<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+      <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        </div>
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+          <h1 class="mdl-typography--display-3">DPCチェッカー</h1>
+        </div>
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        </div>
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+          <a href="/" class="mdl-layout__tab is-active">HOME</a>
+          <a href="/query" class="mdl-layout__tab">Query</a>
+        </div>
+      </header>
+
+
+<h2 class="mdl-typography--display-1">ダッシュボード</h2>
+<p>ダッシュボード機能ベータ版。グラフは順次追加します。</p>
+
+
+<div class="demo-content mdl-color--white mdl-shadow--4dp mdl-cell mdl-cell--6-col">
+<h6 class="mdl-typography--title">病棟別　出来高対比</h6>
+<div id="compbyochart"></div>
+</div>
+
+
+<div class="demo-content mdl-color--white mdl-shadow--4dp mdl-cell mdl-cell--6-col">
+<h6 class="mdl-typography--title">診療科別　出来高対比</h6>
+<div id="compkachart"></div>
+</div>
+
+
+<div class="demo-content mdl-color--white mdl-shadow--4dp mdl-cell mdl-cell--6-col">
+<h6 class="mdl-typography--title">病棟別　収益分布</h6>
+<div id="perbyochart"></div>
+</div>
+
+
+<div class="demo-content mdl-color--white mdl-shadow--4dp mdl-cell mdl-cell--6-col">
+<h6 class="mdl-typography--title">診療科別　収益分布</h6>
+<div id="perkachart"></div>
+</div>
+
+<div class="demo-content mdl-color--white mdl-shadow--4dp mdl-cell mdl-cell--6-col">
+<h6 class="mdl-typography--title">MDC2別　DPC入院料</h6>
+<div id="mdc2dpcchart"></div>
+</div>
+
+
+<div class="demo-content mdl-color--white mdl-shadow--4dp mdl-cell mdl-cell--6-col">
+<h6 class="mdl-typography--title">診療科別　DPC入院料</h6>
+<div id="kadpcchart"></div>
+</div>
+
+
+</div>
+
+<script type="text/javascript" charset="utf8" src = "/static/plotgraph.js"></script>
