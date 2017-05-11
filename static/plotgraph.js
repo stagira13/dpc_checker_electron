@@ -1,9 +1,7 @@
-const local = window.location;
-const url = local.origin;
+const url = 'http://localhost:3000';
 
 
-$("#local").text(local);
-$("#url").text(url);
+
 
 
 

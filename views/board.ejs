@@ -5,10 +5,14 @@
 <link rel="stylesheet" href="/static/styles.css">
     <link rel="stylesheet" href="/static/material.deep_purple-pink.min.css">
 <script type="text/javascript" charset="utf8" src="/static/material.min.js"></script>
+<script>
+window.nodeRequire = require;
+delete window.require;
+delete window.exports;
+delete window.module;
+</script>
 <script type="text/javascript" charset="utf8" src = "/static/jquery.js"></script>
 <script type="text/javascript" charset="utf8" src = "/static/jquery.dataTables.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script type="text/javascript" charset="utf8" src="/static/d3.js"></script>
 <script type="text/javascript" charset="utf8" src = "/static/c3.min.js"></script>
 <link rel="stylesheet" href="/static/c3.min.css">
