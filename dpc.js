@@ -50,6 +50,7 @@ queryname.forEach((i)=> {querys[i] = fs.readFileSync('./query/' + i,'utf8')})
 const exec = require('child_process').exec;
 const iconv = require('iconv-lite');
 const json2csv = require('json2csv');
+const dash_querys = require('./dashdata')
 
 
 
@@ -189,6 +190,18 @@ webapp.post('/delete', function (req, res) {
 });
 
 
+app.get('/getdata',(req,res) => {
+  let db = new sqlite3.Database('dpc.db');
+  let query = dash_querys[req.query.key];
+  db.all(query,(err,rows) => {
+    res.json(rows);
+  })
+  db.close();
+})
+
+app.get("/dash",function(req,res){
+    res.render('board.ejs');
+});
 
 
 var server = webapp.listen(3000,function(){
