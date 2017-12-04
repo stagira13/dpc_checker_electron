@@ -9,6 +9,8 @@ const app = electron.app;
 // ウィンドウを作成するモジュール
 const BrowserWindow = electron.BrowserWindow;
 
+const ipc = electron.ipcMain;
+
 // メインウィンドウはGCされないようにグローバル宣言
 let mainWindow;
 
@@ -24,26 +26,13 @@ var ejs = require("ejs");
 var tableify = require('tableify');
 
 
-var webapp = express();
-var bb = require('express-busboy');
-bb.extend(webapp,{
-  upload: true,
-  path: './tmp'
-});
-
-//bodypaererの設定。これでtmpに自動でアップロード出来るはず
-
-webapp.engine('ejs',ejs.renderFile);
-
-var sqlite3 = require('sqlite3').verbose();
-var fs = require('fs'),
+const sqlite3 = require('sqlite3').verbose();
+let fs = require('fs'),
     parse = require('csv-parse');
 
-webapp.use('/static',express.static('./static'));
-
-var queryname = fs.readdirSync('./query');
+let queryname = fs.readdirSync('./query');
 // .txtつきのリストになります
-var querys = {};
+let querys = {};
 queryname.forEach((i)=> {querys[i] = fs.readFileSync('./query/' + i,'utf8')})
 //utf8指定するとstringになるが、そうでないとbufferになる
 
@@ -54,7 +43,7 @@ const dash_querys = require('./dashdata')
 
 
 
-var db = new sqlite3.Database('dpc.db');
+let db = new sqlite3.Database('dpc.db');
 
 db.serialize(function () {
  db.run('CREATE TABLE IF NOT EXISTS dtable(施設番号 integer, \
@@ -81,11 +70,32 @@ db.run('CREATE TABLE IF NOT EXISTS etable(施設コード integer,データ識�
 
 db.close();
 
-webapp.get("/",function(req,res){
-    res.render('index.ejs');
-});
+// queryを発行する関数 無理やりarrayにpushして値を出してるが、うーん、ミュータブル
+const get_sql_data = (query) => {
+  return new Promise(resolve,reject) => {
+  let db = new sqlite3.Database('dpc.db');
+  let data = []
+  db.all(query, function (err, rows) {
+      data.push(rows);
+    });
+  db.close();
+  return data;
+}
+
+// 上記PROMISE版。こっちにthenで繋げていく？thenでresをipcで飛ばせばいい
+// 例：get_data(q2).then((result) => {console.log(result)})
+const get_data = function(query) {
+  return new Promise(function (resolve, reject) {
+    let db = new sqlite3.Database('dpc.db');
+    db.all(query,(err,rows) => {
+      resolve(rows)
+    });
+  })};
 
 
+const parse_query = 
+
+const send_ipc = 
 
 
 webapp.get('/query', function (req, res) {
