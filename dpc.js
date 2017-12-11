@@ -21,8 +21,7 @@ app.on('window-all-closed', function() {
   }
 });
 
-var express = require('express');
-var ejs = require("ejs");
+
 var tableify = require('tableify');
 
 
