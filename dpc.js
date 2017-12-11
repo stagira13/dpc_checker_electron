@@ -70,6 +70,7 @@ db.run('CREATE TABLE IF NOT EXISTS etable(施設コード integer,データ識�
 db.close();
 
 // queryを発行する関数 無理やりarrayにpushして値を出してるが、うーん、ミュータブル
+/*
 const get_sql_data = (query) => {
   return new Promise(resolve,reject) => {
   let db = new sqlite3.Database('dpc.db');
@@ -80,10 +81,12 @@ const get_sql_data = (query) => {
   db.close();
   return data;
 }
+*/
 
 // 上記PROMISE版。こっちにthenで繋げていく？thenでresをipcで飛ばせばいい
 // 例：get_data(q2).then((result) => {console.log(result)})
-const get_data = function(query) {
+// get_data(q2).then(onFulfilled).then(doSomeThing) と繋げられる
+const get_sql_data = function(query) {
   return new Promise(function (resolve, reject) {
     let db = new sqlite3.Database('dpc.db');
     db.all(query,(err,rows) => {
@@ -92,9 +95,17 @@ const get_data = function(query) {
   })};
 
 
-const parse_query = 
+// const send_ipc = function(rows) {webContents.send('sql_data', rows);}
 
-const send_ipc = 
+
+ipc.on('query_selected', function(event, arg) {
+  get_sql_data(arg).then((result) => {event.sender.send('got_data',result)});
+});
+
+
+const logger = function(rows) {console.log(rows);}
+
+// get_sql_data(query).then(logger)
 
 
 webapp.get('/query', function (req, res) {
