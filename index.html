@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DPCチェッカー</title>
+<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+<link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
+</head>
+<body>
+
+
+<div id="app">
+    <v-app>
+        <v-navigation-drawer fixed app></v-navigation-drawer>
+        <v-toolbar color="indigo" dark fixed app>
+            <v-toolbar-title>DPCチェッカー</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-toolbar-side-icon class="hidden-md-and-up"></v-toolbar-side-icon>
+            <v-toolbar-items class="hidden-xs-only">
+                <router-link to="/"><v-btn flat>データ登録ページ</v-btn></router-link>
+                <router-link to="/table"><v-btn flat>データ抽出ページ</v-btn></router-link>
+            </v-toolbar-items>
+        </v-toolbar>
+        <v-content>
+            <v-container fluid>
+                <router-view></router-view>
+                <router-view class="view two" name="sqltable"></router-view>
+                <router-view class="view top" name="importfile"></router-view>
+                <router-view class="view top" name="deletefile"></router-view>
+            </v-container>
+        </v-content>
+        <v-footer app>2017年度版</v-footer>
+    </v-app>
+</div>
+
+
+
+
+<script src="index.js"></script>
+
+</body>
+</html>
