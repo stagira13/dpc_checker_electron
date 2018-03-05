@@ -16,7 +16,11 @@ const getSqlData = function(query) {
   })};
 
 ipc.on('query_selected', function(event, arg) {
-    getSqlData(arg).then((result) => {event.sender.send('got_data',result)});
+    getSqlData(arg).then((result) => {
+      if (typeof result !== 'undefined' && result.length > 0) {
+        event.sender.send('got_data',result)}
+      else {event.sender.send('got_data',[{'データなし':'データなし'}])}
+    });
   });
   
 
