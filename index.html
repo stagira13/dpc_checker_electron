@@ -11,11 +11,9 @@
 
 <div id="app">
     <v-app>
-        <v-navigation-drawer fixed app></v-navigation-drawer>
         <v-toolbar color="indigo" dark fixed app>
             <v-toolbar-title>DPCチェッカー</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-toolbar-side-icon class="hidden-md-and-up"></v-toolbar-side-icon>
             <v-toolbar-items class="hidden-xs-only">
                 <router-link to="/"><v-btn flat>データ登録ページ</v-btn></router-link>
                 <router-link to="/table"><v-btn flat>データ抽出ページ</v-btn></router-link>
@@ -23,7 +21,7 @@
         </v-toolbar>
         <v-content>
             <v-container fluid>
-                <router-view></router-view>
+                <router-view :items="items"></router-view>
                 <router-view class="view two" name="sqltable"></router-view>
                 <router-view class="view top" name="importfile"></router-view>
                 <router-view class="view top" name="deletefile"></router-view>
