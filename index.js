@@ -10,6 +10,7 @@ const VueRouter = require("vue-router");
 const Vuetify = require('vuetify').default;
 const {dialog} = require('electron').remote
 const exec = require('child_process').exec;
+const execSync = require('child_process').execSync;
 const json2csv = require('json2csv');
 
 
@@ -27,11 +28,16 @@ Vue.use(Vuetify)
 Vue.use(VueRouter)
 
 const jisToUtf = (filename,savename) => {
-fs.createReadStream(filename)
-.pipe(iconv.decodeStream('Shift_JIS'))
-.pipe(iconv.encodeStream('utf8'))
-.pipe(fs.createWriteStream(savename)) 
+      let src = fs.createReadStream(filename)
+      let dest = fs.createWriteStream(savename)
+          src
+            .pipe(iconv.decodeStream('Shift_JIS'))
+            .pipe(iconv.encodeStream('utf8'))
+            .pipe(dest)
+      return dest
 }
+
+// .on('finish',()=> {doSomething})
 
 const createHeaders = (rows) => {
   let headers = Object.keys(rows[0])
@@ -80,28 +86,32 @@ const importfile = {
       dialog.showOpenDialog (win, {filters: [{name: 'All Files', extensions: ['*']}],
       properties:['openFile']},
       (filename) => {console.log(filename[0]); //opendialogは複数ファイル選択を前提するので、0index指定
-      jisToUtf(filename[0],'DRGD.txt')
-      exec('sqlite3.exe dpc.db < importd.sql',(error, stdout, stderr) => {
-        console.log(error,stdout,stderr)
-      }
-    );
-      this.progress = "インポート終了"})
+      const convert = jisToUtf(filename[0],'DRGD.txt')
+      convert.on('finish', () => {
+        execSync('sqlite3.exe dpc.db < importd.sql');
+        this.progress = "インポート終了"
+      })
+      })
       // filenameはarrayになってる。filename[0]かな
     },
     importe: function() {
       this.progress = "インポート中"
       dialog.showOpenDialog (win, {filters: [{name: 'All Files', extensions: ['*']}],
-      properties:['openFile']},
-      (filename) => {console.log(filename[0]);
-      jisToUtf(filename[0],'DRGEF.txt')
-      exec('sqlite3.exe dpc.db < importe.sql');
-      this.progress = "インポート終了"})
+            properties:['openFile']},
+            (filename) => {console.log(filename[0]);
+                const convert = jisToUtf(filename[0],'DRGD.txt')
+                convert.on('finish', () => {
+                  execSync('sqlite3.exe dpc.db < importd.sql');
+                  this.progress = "インポート終了"
+                })
+            })
     }
   },
   data: function () {
     return {progress: ''}
   }
 }
+
 
 const deletefile = {
   template: '<v-container fluid> \
